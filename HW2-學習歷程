@@ -1,0 +1,30 @@
+#把題目中的class都存進字典中
+d={}
+for i in range(4):
+    c_lst=input().split()
+    bigger_class=c_lst[0]
+    require=c_lst[1:]
+    d[bigger_class]=require
+
+#有興趣的科目
+c1=input()
+
+#先把leve1的階層存進lst1中
+lst1=d[c1]
+pre_lst1=lst1[:]
+pre_lst1.reverse()
+total=pre_lst1 #把leve1順序顛倒後先放進total中
+lst2=[]
+while True:
+    for i in lst1: #針對leve1跑回圈，如果發現裡面的東西沒有被字典定義就幫他定義一個空list，這樣之後extend那邊才不會因為找不到key而出錯
+        if i not in d:
+            d[i]=[]
+        lst2.extend(d[i]) #一個一個找到並存進leve2
+    if not lst2: #如果level2找沒有元素就停止while迴圈
+        break
+    total.extend(lst2) #把剛剛所獲得leve2所有的元素都丟進total
+    lst1=lst2[:] #再把leve2定義成leve1繼續進行下一輪的迴圈，如此一來每一輪都可以找到下一階層的東西
+    lst2.clear() #把lst2清空，重新開始
+total.reverse() # 最後把total的順序反過來，並加上一開始有興趣的科目
+total.extend([c1])
+print(total)
